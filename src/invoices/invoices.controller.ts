@@ -15,30 +15,30 @@ export class InvoicesController {
   constructor(private invoicesService: InvoicesService) {}
 
   @Get()
-  async getInvoices() {
-    return await this.invoicesService.getInvoices();
+  async find() {
+    return await this.invoicesService.find();
   }
 
-  @Get(':id')
-  async getInvoice(@Param('id') invoiceId: string) {
-    return await this.invoicesService.getInvoice(invoiceId);
-  }
+  // @Get(':id')
+  // async findOneById(@Param('id') invoiceId: string) {
+  //   return await this.invoicesService.findOneById(invoiceId);
+  // }
 
   @Post()
   async createInvoice(@Body() invoice: CreateInvoiceDto) {
     return await this.invoicesService.createInvoice(invoice);
   }
 
-  @Put(':id')
-  async updateInvoice(
-    @Param('id') invoiceId: string,
-    @Body() invoice: UpdateInvoiceDto,
-  ) {
-    return await this.invoicesService.updateInvoice(invoiceId, invoice);
-  }
-
-  @Delete(':id')
-  async deleteInvoice(@Param('id') invoiceId: string) {
-    return await this.invoicesService.deleteInvoice(invoiceId);
-  }
+  //@Put(':id')
+  //async updateInvoice(
+  //  @Param('id') invoiceId: string,
+  //  @Body() invoice: UpdateInvoiceDto,
+  //) {
+  //  return await this.invoicesService.updateInvoice(invoiceId, invoice);
+  //}
+  //
+  //@Delete(':id')
+  //async deleteInvoice(@Param('id') invoiceId: string) {
+  //  return await this.invoicesService.deleteInvoice(invoiceId);
+  //}
 }

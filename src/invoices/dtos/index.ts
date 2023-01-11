@@ -2,4 +2,4 @@ export {
   GetInvoiceDto,
   CreateInvoiceDto,
   UpdateInvoiceDto,
-} from './invoices.dto';
+} from './invoice.dto';
