@@ -51,11 +51,24 @@ export class InvoicesService {
   getInvoice(invoiceId: string): Promise<GetInvoiceDto> {
     return new Promise((resolve) => {
       const id = Number(invoiceId);
-      const invoice = INVOICES.find((book) => book.id === id);
+      const invoice = INVOICES.find((invoice) => invoice.id === id);
       if (!invoice) {
         throw new HttpException('Invoice does not exist!', 404);
       }
       resolve(invoice);
+    });
+  }
+
+  // TODO - return nothing
+  deleteInvoice(invoiceId: string): Promise<GetInvoiceDto[]> {
+    return new Promise((resolve) => {
+      const id = Number(invoiceId);
+      const index = INVOICES.findIndex((invoice) => invoice.id === id);
+      if (index === -1) {
+        throw new HttpException('Invoice does not exist!', 404);
+      }
+      INVOICES.splice(1, index);
+      resolve(INVOICES);
     });
   }
 }

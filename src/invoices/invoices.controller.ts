@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Delete } from '@nestjs/common';
 import { InvoicesService } from './invoices.service';
 
 @Controller('invoices')
@@ -13,5 +13,10 @@ export class InvoicesController {
   @Get(':id')
   async getInvoice(@Param('id') invoiceId: string) {
     return await this.invoicesService.getInvoice(invoiceId);
+  }
+
+  @Delete(':id')
+  async deleteInvoice(@Param('id') invoiceId: string) {
+    return await this.invoicesService.deleteInvoice(invoiceId);
   }
 }
