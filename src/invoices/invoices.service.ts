@@ -1,5 +1,5 @@
 import { Injectable, HttpException } from '@nestjs/common';
-import { GetInvoiceDto } from './dtos';
+import { GetInvoiceDto, CreateInvoiceDto } from './dtos';
 
 export const INVOICES: GetInvoiceDto[] = [
   {
@@ -42,13 +42,13 @@ export const INVOICES: GetInvoiceDto[] = [
 
 @Injectable()
 export class InvoicesService {
-  getInvoices(): Promise<GetInvoiceDto[]> {
+  async getInvoices(): Promise<GetInvoiceDto[]> {
     return new Promise((resolve) => {
       resolve(INVOICES);
     });
   }
 
-  getInvoice(invoiceId: string): Promise<GetInvoiceDto> {
+  async getInvoice(invoiceId: string): Promise<GetInvoiceDto> {
     return new Promise((resolve) => {
       const id = Number(invoiceId);
       const invoice = INVOICES.find((invoice) => invoice.id === id);
@@ -59,8 +59,15 @@ export class InvoicesService {
     });
   }
 
+  async createInvoice(invoice: CreateInvoiceDto): Promise<GetInvoiceDto[]> {
+    return new Promise((resolve) => {
+      INVOICES.push(invoice);
+      resolve(INVOICES);
+    });
+  }
+
   // TODO - return nothing
-  deleteInvoice(invoiceId: string): Promise<GetInvoiceDto[]> {
+  async deleteInvoice(invoiceId: string): Promise<GetInvoiceDto[]> {
     return new Promise((resolve) => {
       const id = Number(invoiceId);
       const index = INVOICES.findIndex((invoice) => invoice.id === id);
