@@ -1,6 +1,7 @@
 import { Injectable, HttpException } from '@nestjs/common';
+import { GetInvoiceDto } from './dtos';
 
-export const INVOICES = [
+export const INVOICES: GetInvoiceDto[] = [
   {
     id: 1,
     title: 'First book',
@@ -41,18 +42,18 @@ export const INVOICES = [
 
 @Injectable()
 export class InvoicesService {
-  getInvoices(): Promise<any> {
+  getInvoices(): Promise<GetInvoiceDto[]> {
     return new Promise((resolve) => {
       resolve(INVOICES);
     });
   }
 
-  getInvoice(invoiceId: string): Promise<any> {
+  getInvoice(invoiceId: string): Promise<GetInvoiceDto> {
     return new Promise((resolve) => {
       const id = Number(invoiceId);
       const invoice = INVOICES.find((book) => book.id === id);
       if (!invoice) {
-        throw new HttpException('Book does not exist!', 404);
+        throw new HttpException('Invoice does not exist!', 404);
       }
       resolve(invoice);
     });
