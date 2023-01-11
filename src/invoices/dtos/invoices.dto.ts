@@ -8,3 +8,5 @@ class Invoice {
 export class GetInvoiceDto extends Invoice {}
 
 export class CreateInvoiceDto extends Invoice {}
+
+export class UpdateInvoiceDto extends Invoice {}

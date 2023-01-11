@@ -1,1 +1,5 @@
-export { GetInvoiceDto, CreateInvoiceDto } from './invoices.dto';
+export {
+  GetInvoiceDto,
+  CreateInvoiceDto,
+  UpdateInvoiceDto,
+} from './invoices.dto';

@@ -1,6 +1,14 @@
-import { Controller, Get, Post, Delete, Param, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Param,
+  Body,
+} from '@nestjs/common';
 import { InvoicesService } from './invoices.service';
-import { CreateInvoiceDto } from './dtos';
+import { CreateInvoiceDto, UpdateInvoiceDto } from './dtos';
 
 @Controller('invoices')
 export class InvoicesController {
@@ -19,6 +27,14 @@ export class InvoicesController {
   @Post()
   async createInvoice(@Body() invoice: CreateInvoiceDto) {
     return await this.invoicesService.createInvoice(invoice);
+  }
+
+  @Put(':id')
+  async updateInvoice(
+    @Param('id') invoiceId: string,
+    @Body() invoice: UpdateInvoiceDto,
+  ) {
+    return await this.invoicesService.updateInvoice(invoiceId, invoice);
   }
 
   @Delete(':id')
