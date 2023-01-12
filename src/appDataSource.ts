@@ -4,7 +4,7 @@ import { Invoice } from './invoices/entities';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
-  host: process.env.TYPEORM_HOST,
+  host: 'host.docker.internal',
   port: Number(process.env.TYPEORM_PORT),
   username: process.env.TYPEORM_USERNAME,
   password: process.env.TYPEORM_PASSWORD,
