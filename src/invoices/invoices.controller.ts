@@ -21,26 +21,26 @@ export class InvoicesController {
     return await this.invoicesService.find();
   }
 
-  // @Get(':id')
-  // async findOneById(@Param('id') invoiceId: string) {
-  //   return await this.invoicesService.findOneById(invoiceId);
-  // }
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    return await this.invoicesService.findOne(id);
+  }
 
   @Post()
-  async createInvoice(@Body() invoice: CreateInvoiceDto) {
-    return await this.invoicesService.createInvoice(invoice);
+  async create(@Body() invoice: CreateInvoiceDto) {
+    return await this.invoicesService.create(invoice);
   }
 
   //@Put(':id')
-  //async updateInvoice(
+  //async update(
   //  @Param('id') invoiceId: string,
   //  @Body() invoice: UpdateInvoiceDto,
   //) {
-  //  return await this.invoicesService.updateInvoice(invoiceId, invoice);
+  //  return await this.invoicesService.update(invoiceId, invoice);
   //}
   //
   //@Delete(':id')
-  //async deleteInvoice(@Param('id') invoiceId: string) {
-  //  return await this.invoicesService.deleteInvoice(invoiceId);
+  //async delete(@Param('id') invoiceId: string) {
+  //  return await this.invoicesService.delete(invoiceId);
   //}
 }

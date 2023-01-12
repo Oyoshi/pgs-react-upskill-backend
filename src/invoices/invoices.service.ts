@@ -11,10 +11,11 @@ export class InvoicesService {
     return await this.invoicesRepository.find();
   }
 
-  //async findOne(invoiceId: string): Promise<GetInvoiceDto> {
-  //}
+  async findOne(id: string): Promise<GetInvoiceDto> {
+    return await this.invoicesRepository.findOneBy({ id });
+  }
 
-  async createInvoice(invoice: CreateInvoiceDto): Promise<GetInvoiceDto> {
+  async create(invoice: CreateInvoiceDto): Promise<GetInvoiceDto> {
     return await this.invoicesRepository.save(invoice);
   }
 
