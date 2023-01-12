@@ -15,10 +15,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Install Dependencies
+      - name: Use Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
+      - name: Install Dependencies
       - run: yarn install --frozen-lockfile
       - name: Build
       - run: yarn build
