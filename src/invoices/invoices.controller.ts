@@ -7,10 +7,12 @@ import {
   Param,
   Body,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { InvoicesService } from './invoices.service';
 import { CreateInvoiceDto, UpdateInvoiceDto } from './dtos';
 
-@Controller('invoices')
+@ApiTags('Invoices')
+@Controller('api/invoices')
 export class InvoicesController {
   constructor(private invoicesService: InvoicesService) {}
 
