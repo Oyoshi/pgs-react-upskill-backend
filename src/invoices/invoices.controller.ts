@@ -31,16 +31,13 @@ export class InvoicesController {
     return await this.invoicesService.create(invoice);
   }
 
-  //@Put(':id')
-  //async update(
-  //  @Param('id') id: string,
-  //  @Body() invoice: UpdateInvoiceDto,
-  //) {
-  //  return await this.invoicesService.update(id, invoice);
-  //}
-  //
-  //@Delete(':id')
-  //async delete(@Param('id') id: string) {
-  //  return await this.invoicesService.delete(id);
-  //}
+  @Put(':id')
+  async update(@Param('id') id: string, @Body() invoice: UpdateInvoiceDto) {
+    return await this.invoicesService.update(id, invoice);
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string) {
+    return await this.invoicesService.delete(id);
+  }
 }

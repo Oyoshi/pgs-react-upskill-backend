@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { In, DeleteResult } from 'typeorm';
 import { GetInvoiceDto, CreateInvoiceDto, UpdateInvoiceDto } from './dtos';
 import { Invoice, Contact, Item } from './entities';
 import { AppDataSource } from '../appDataSource';
@@ -16,14 +17,7 @@ export class InvoicesService {
   }
 
   async findOne(id: string): Promise<GetInvoiceDto> {
-    const invoice = await this.invoicesRepository.findOne({
-      where: { id },
-      relations: ['recipient', 'sender', 'items'],
-    });
-    if (invoice == null) {
-      throw new NotFoundException('No invoice with given id');
-    }
-    return invoice;
+    return await this.findInvoiceById(id);
   }
 
   async create(invoice: CreateInvoiceDto): Promise<GetInvoiceDto> {
@@ -39,19 +33,34 @@ export class InvoicesService {
     });
   }
 
-  // async update(
-  //   id: string,
-  //   invoiceData: UpdateInvoiceDto,
-  // ): Promise<GetInvoiceDto> {
-  //   const invoice = await this.invoicesRepository.findOneBy({ id });
-  //   if (invoice == null) {
-  //     throw new NotFoundException('No invoice with given id');
-  //   }
-  //
-  //   invoice
-  // }
+  async update(
+    id: string,
+    invoiceData: UpdateInvoiceDto,
+  ): Promise<GetInvoiceDto> {
+    const invoice = await this.findInvoiceById(id);
+    // TODO- finish this code
+    return invoice;
+  }
 
-  async delete(id: string) {
-    return await this.invoicesRepository.delete({ id });
+  async delete(id: string): Promise<DeleteResult> {
+    // TODO - still does not work, requires cascade deletion
+    const invoice = await this.findInvoiceById(id);
+    const { recipient, sender, items } = invoice;
+    const contactsToDelete = [recipient.id, sender.id];
+    await this.contactsRepository.delete({ id: In(contactsToDelete) });
+    const itemsToDelete = items.map((item) => item.id);
+    await this.itemsRepository.delete({ id: In(itemsToDelete) });
+    return await this.invoicesRepository.delete({ id: invoice.id });
+  }
+
+  private async findInvoiceById(id: string) {
+    const invoice = await this.invoicesRepository.findOne({
+      where: { id },
+      relations: ['recipient', 'sender', 'items'],
+    });
+    if (invoice == null) {
+      throw new NotFoundException('No invoice with given id');
+    }
+    return invoice;
   }
 }
