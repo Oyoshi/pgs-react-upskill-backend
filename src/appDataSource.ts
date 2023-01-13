@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
-import { Invoice } from './invoices/entities';
+import { Invoice, Contact, Item } from './invoices/entities';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -11,6 +11,6 @@ export const AppDataSource = new DataSource({
   database: process.env.TYPEORM_DATABASE,
   synchronize: true,
   logging: 'all',
-  entities: [Invoice],
+  entities: [Invoice, Contact, Item],
   migrations: [],
 });

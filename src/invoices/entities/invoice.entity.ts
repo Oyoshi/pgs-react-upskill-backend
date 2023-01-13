@@ -1,4 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
+import { Contact } from './contact.entity';
+import { Item } from './item.entity';
 
 @Entity()
 export class Invoice {
@@ -6,11 +15,22 @@ export class Invoice {
   id: string;
 
   @Column()
-  title: string;
+  name: string;
 
-  @Column()
-  description: string;
+  @Column('timestamptz')
+  createdAt: Date;
 
-  @Column()
-  author: string;
+  @Column('timestamptz')
+  validUntil: Date;
+
+  @OneToOne(() => Contact)
+  @JoinColumn()
+  recipient: Contact;
+
+  @OneToOne(() => Contact)
+  @JoinColumn()
+  sender: Contact;
+
+  @OneToMany(() => Item, (item) => item.invoice)
+  items: Item[];
 }

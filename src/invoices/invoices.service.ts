@@ -1,18 +1,25 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { GetInvoiceDto, CreateInvoiceDto, UpdateInvoiceDto } from './dtos';
-import { Invoice } from './entities';
+import { Invoice, Contact, Item } from './entities';
 import { AppDataSource } from '../appDataSource';
 
 @Injectable()
 export class InvoicesService {
   private invoicesRepository = AppDataSource.getRepository(Invoice);
+  private contactsRepository = AppDataSource.getRepository(Contact);
+  private itemsRepository = AppDataSource.getRepository(Item);
 
   async find(): Promise<GetInvoiceDto[]> {
-    return await this.invoicesRepository.find();
+    return await this.invoicesRepository.find({
+      relations: ['recipient', 'sender', 'items'],
+    });
   }
 
   async findOne(id: string): Promise<GetInvoiceDto> {
-    const invoice = await this.invoicesRepository.findOneBy({ id });
+    const invoice = await this.invoicesRepository.findOne({
+      where: { id },
+      relations: ['recipient', 'sender', 'items'],
+    });
     if (invoice == null) {
       throw new NotFoundException('No invoice with given id');
     }
@@ -20,15 +27,31 @@ export class InvoicesService {
   }
 
   async create(invoice: CreateInvoiceDto): Promise<GetInvoiceDto> {
-    return await this.invoicesRepository.save(invoice);
+    const { recipient, sender, items } = invoice;
+    const recipientToSave = await this.contactsRepository.save(recipient);
+    const senderToSave = await this.contactsRepository.save(sender);
+    const itemsToSave = await this.itemsRepository.save(items);
+    return await this.invoicesRepository.save({
+      ...invoice,
+      recipient: recipientToSave,
+      sender: senderToSave,
+      items: itemsToSave,
+    });
   }
 
-  //async update(
-  //  invoiceId: string,
-  //  invoice: UpdateInvoiceDto,
-  //): Promise<GetInvoiceDto[]> {
-  //}
+  // async update(
+  //   id: string,
+  //   invoiceData: UpdateInvoiceDto,
+  // ): Promise<GetInvoiceDto> {
+  //   const invoice = await this.invoicesRepository.findOneBy({ id });
+  //   if (invoice == null) {
+  //     throw new NotFoundException('No invoice with given id');
+  //   }
   //
-  //async delete(invoiceId: string): Promise<GetInvoiceDto[]> {
-  //}
+  //   invoice
+  // }
+
+  async delete(id: string) {
+    return await this.invoicesRepository.delete({ id });
+  }
 }
