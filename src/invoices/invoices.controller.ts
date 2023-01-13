@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { InvoicesService } from './invoices.service';
-import { CreateInvoiceDto, UpdateInvoiceDto } from './dtos';
+import { CreateInvoiceDto, GetInvoiceDto, UpdateInvoiceDto } from './dtos';
 
 @ApiTags('Invoices')
 @Controller('api/invoices')
@@ -17,7 +17,7 @@ export class InvoicesController {
   constructor(private invoicesService: InvoicesService) {}
 
   @Get()
-  async find() {
+  async find(): Promise<GetInvoiceDto[]> {
     return await this.invoicesService.find();
   }
 
