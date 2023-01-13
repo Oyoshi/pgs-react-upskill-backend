@@ -5,7 +5,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppDataSource } from './appDataSource';
 import { AppModule } from './app.module';
 
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
@@ -21,6 +21,7 @@ async function bootstrap() {
 }
 
 AppDataSource.initialize()
-  .then(() => {})
+  .then(() => {
+    bootstrap();
+  })
   .catch((error) => console.log(error));
-bootstrap();
