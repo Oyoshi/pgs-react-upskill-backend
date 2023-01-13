@@ -2,13 +2,13 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { In, DeleteResult } from 'typeorm';
 import { GetInvoiceDto, CreateInvoiceDto, UpdateInvoiceDto } from './dtos';
 import { Invoice, Contact, Item } from './entities';
-import { AppDataSource } from '../appDataSource';
+import { postgresDataSource } from '../appDataSource';
 
 @Injectable()
 export class InvoicesService {
-  private invoicesRepository = AppDataSource.getRepository(Invoice);
-  private contactsRepository = AppDataSource.getRepository(Contact);
-  private itemsRepository = AppDataSource.getRepository(Item);
+  private invoicesRepository = postgresDataSource.getRepository(Invoice);
+  private contactsRepository = postgresDataSource.getRepository(Contact);
+  private itemsRepository = postgresDataSource.getRepository(Item);
 
   async find(): Promise<GetInvoiceDto[]> {
     return await this.invoicesRepository.find({
@@ -38,7 +38,7 @@ export class InvoicesService {
     invoiceData: UpdateInvoiceDto,
   ): Promise<GetInvoiceDto> {
     const invoice = await this.findInvoiceById(id);
-    // TODO- finish this code
+    // this.invoicesRepository.update(invoice)
     return invoice;
   }
 

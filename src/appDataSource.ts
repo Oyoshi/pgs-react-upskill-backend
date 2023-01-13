@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 import { Invoice, Contact, Item } from './invoices/entities';
 
-export const AppDataSource = new DataSource({
+export const postgresDataSource = new DataSource({
   type: 'postgres',
   host: 'host.docker.internal',
   port: Number(process.env.TYPEORM_PORT),
