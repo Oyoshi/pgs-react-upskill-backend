@@ -33,14 +33,14 @@ export class InvoicesController {
 
   //@Put(':id')
   //async update(
-  //  @Param('id') invoiceId: string,
+  //  @Param('id') id: string,
   //  @Body() invoice: UpdateInvoiceDto,
   //) {
-  //  return await this.invoicesService.update(invoiceId, invoice);
+  //  return await this.invoicesService.update(id, invoice);
   //}
   //
   //@Delete(':id')
-  //async delete(@Param('id') invoiceId: string) {
-  //  return await this.invoicesService.delete(invoiceId);
+  //async delete(@Param('id') id: string) {
+  //  return await this.invoicesService.delete(id);
   //}
 }

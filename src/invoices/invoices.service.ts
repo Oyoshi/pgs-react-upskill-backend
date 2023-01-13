@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { GetInvoiceDto, CreateInvoiceDto, UpdateInvoiceDto } from './dtos';
 import { Invoice } from './entities';
 import { AppDataSource } from '../appDataSource';
@@ -12,20 +12,23 @@ export class InvoicesService {
   }
 
   async findOne(id: string): Promise<GetInvoiceDto> {
-    return await this.invoicesRepository.findOneBy({ id });
+    const invoice = await this.invoicesRepository.findOneBy({ id });
+    if (invoice == null) {
+      throw new NotFoundException('No invoice with given id');
+    }
+    return invoice;
   }
 
   async create(invoice: CreateInvoiceDto): Promise<GetInvoiceDto> {
     return await this.invoicesRepository.save(invoice);
   }
 
-  //async updateInvoice(
+  //async update(
   //  invoiceId: string,
   //  invoice: UpdateInvoiceDto,
   //): Promise<GetInvoiceDto[]> {
   //}
-
-  // TODO - return nothing
-  //async deleteInvoice(invoiceId: string): Promise<GetInvoiceDto[]> {
+  //
+  //async delete(invoiceId: string): Promise<GetInvoiceDto[]> {
   //}
 }
