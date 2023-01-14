@@ -10,7 +10,12 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { InvoicesService } from './invoices.service';
-import { CreateInvoiceDto, GetInvoiceDto, UpdateInvoiceDto } from './dtos';
+import {
+  CreateInvoiceDto,
+  GetAllInvoicesDto,
+  GetInvoiceDto,
+  UpdateInvoiceDto,
+} from './dtos';
 
 @ApiTags('Invoices')
 @Controller('api/invoices')
@@ -18,22 +23,27 @@ export class InvoicesController {
   constructor(private invoicesService: InvoicesService) {}
 
   @Get()
-  async find(@Query('name') invoiceName?: string): Promise<GetInvoiceDto[]> {
+  async find(
+    @Query('name') invoiceName?: string,
+  ): Promise<GetAllInvoicesDto[]> {
     return await this.invoicesService.find(invoiceName);
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string): Promise<GetInvoiceDto> {
     return await this.invoicesService.findOne(id);
   }
 
   @Post()
-  async create(@Body() invoice: CreateInvoiceDto) {
+  async create(@Body() invoice: CreateInvoiceDto): Promise<GetInvoiceDto> {
     return await this.invoicesService.create(invoice);
   }
 
   @Put(':id')
-  async update(@Param('id') id: string, @Body() invoice: UpdateInvoiceDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() invoice: UpdateInvoiceDto,
+  ): Promise<UpdateInvoiceDto> {
     return await this.invoicesService.update(id, invoice);
   }
 

@@ -13,20 +13,25 @@ class InvoiceBaseDto {
   @IsDate()
   validUntil: Date;
   @IsNotEmpty()
-  recipient: ContactBaseDto;
-  @IsNotEmpty()
-  sender: ContactBaseDto;
-  @IsNotEmpty()
   items: ItemBaseDto[];
 }
 
-export class GetInvoiceDto extends InvoiceBaseDto {
+class InvoiceWithContactBaseDto extends InvoiceBaseDto {
+  @IsNotEmpty()
+  recipient: ContactBaseDto;
+  @IsNotEmpty()
+  sender: ContactBaseDto;
+}
+
+export class GetAllInvoicesDto extends InvoiceBaseDto {}
+
+export class GetInvoiceDto extends InvoiceWithContactBaseDto {
   id: string;
   recipient: GetContactDto;
   sender: GetContactDto;
   items: GetItemDto[];
 }
 
-export class CreateInvoiceDto extends InvoiceBaseDto {}
+export class CreateInvoiceDto extends InvoiceWithContactBaseDto {}
 
-export class UpdateInvoiceDto extends InvoiceBaseDto {}
+export class UpdateInvoiceDto extends InvoiceWithContactBaseDto {}

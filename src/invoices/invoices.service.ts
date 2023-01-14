@@ -1,7 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { In, Raw, DeleteResult } from 'typeorm';
 import { isNil } from 'lodash';
-import { GetInvoiceDto, CreateInvoiceDto, UpdateInvoiceDto } from './dtos';
+import {
+  GetAllInvoicesDto,
+  GetInvoiceDto,
+  CreateInvoiceDto,
+  UpdateInvoiceDto,
+} from './dtos';
 import { Invoice, Contact, Item } from './entities';
 import { postgresDataSource } from '../appDataSource';
 
@@ -11,7 +16,7 @@ export class InvoicesService {
   private contactsRepository = postgresDataSource.getRepository(Contact);
   private itemsRepository = postgresDataSource.getRepository(Item);
 
-  async find(invoiceName?: string): Promise<GetInvoiceDto[]> {
+  async find(invoiceName?: string): Promise<GetAllInvoicesDto[]> {
     return await this.invoicesRepository.find({
       relations: ['items'],
       where: !isNil(invoiceName)
