@@ -21,6 +21,7 @@ services:
     depends_on:
       - db
     environment:
+      - SEED_N=${DB_SEED}
       - API_PORT=4000
       - TYPEORM_PORT=5432
       - TYPEORM_USERNAME=${DB_USER}

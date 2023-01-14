@@ -5,6 +5,9 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { postgresDataSource } from './appDataSource';
 import { AppModule } from './app.module';
 
+const PORT = Number(process.env.API_PORT) || 4000;
+const SEED_N = Number(process.env.SEED_N) || 0;
+
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
@@ -19,10 +22,15 @@ async function bootstrap(): Promise<void> {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(Number(process.env.API_PORT));
+  await app.listen(PORT);
 }
 
 postgresDataSource
   .initialize()
-  .then(() => bootstrap())
+  .then(() => {
+    console.log('Postgres Data Source has been initialized');
+    bootstrap();
+  })
   .catch((error) => console.log(error));
+
+// https://radanfolio.vercel.app/posts/seed-database-with-typeorm-in-2023

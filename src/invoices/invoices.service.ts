@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { In, DeleteResult } from 'typeorm';
+import { In, Raw, DeleteResult } from 'typeorm';
+import { isNil } from 'lodash';
 import { GetInvoiceDto, CreateInvoiceDto, UpdateInvoiceDto } from './dtos';
 import { Invoice, Contact, Item } from './entities';
 import { postgresDataSource } from '../appDataSource';
@@ -10,9 +11,12 @@ export class InvoicesService {
   private contactsRepository = postgresDataSource.getRepository(Contact);
   private itemsRepository = postgresDataSource.getRepository(Item);
 
-  async find(): Promise<GetInvoiceDto[]> {
+  async find(invoiceName?: string): Promise<GetInvoiceDto[]> {
     return await this.invoicesRepository.find({
-      relations: ['recipient', 'sender', 'items'],
+      relations: ['items'],
+      where: !isNil(invoiceName)
+        ? { name: Raw((name) => `LOWER(${name}) Like '%${invoiceName}%'`) }
+        : undefined,
     });
   }
 
@@ -58,7 +62,7 @@ export class InvoicesService {
       where: { id },
       relations: ['recipient', 'sender', 'items'],
     });
-    if (invoice == null) {
+    if (isNil(invoice)) {
       throw new NotFoundException('No invoice with given id');
     }
     return invoice;

@@ -6,6 +6,7 @@ import {
   Delete,
   Param,
   Body,
+  Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { InvoicesService } from './invoices.service';
@@ -17,8 +18,8 @@ export class InvoicesController {
   constructor(private invoicesService: InvoicesService) {}
 
   @Get()
-  async find(): Promise<GetInvoiceDto[]> {
-    return await this.invoicesService.find();
+  async find(@Query('name') invoiceName?: string): Promise<GetInvoiceDto[]> {
+    return await this.invoicesService.find(invoiceName);
   }
 
   @Get(':id')
