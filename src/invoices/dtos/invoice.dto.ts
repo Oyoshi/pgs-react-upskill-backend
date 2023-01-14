@@ -35,3 +35,5 @@ export class GetInvoiceDto extends InvoiceWithContactBaseDto {
 export class CreateInvoiceDto extends InvoiceWithContactBaseDto {}
 
 export class UpdateInvoiceDto extends InvoiceWithContactBaseDto {}
+
+export class DeleteInvoiceDto extends InvoiceWithContactBaseDto {}

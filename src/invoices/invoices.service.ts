@@ -1,11 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { In, Raw, DeleteResult } from 'typeorm';
+import { Raw } from 'typeorm';
 import { isNil } from 'lodash';
 import {
   GetAllInvoicesDto,
   GetInvoiceDto,
   CreateInvoiceDto,
   UpdateInvoiceDto,
+  DeleteInvoiceDto,
 } from './dtos';
 import { Invoice, Contact, Item } from './entities';
 import { postgresDataSource } from '../appDataSource';
@@ -31,14 +32,14 @@ export class InvoicesService {
 
   async create(invoice: CreateInvoiceDto): Promise<GetInvoiceDto> {
     const { recipient, sender, items } = invoice;
-    const recipientToSave = await this.contactsRepository.save(recipient);
-    const senderToSave = await this.contactsRepository.save(sender);
-    const itemsToSave = await this.itemsRepository.save(items);
+    const savedRecipient = await this.contactsRepository.save(recipient);
+    const savedSender = await this.contactsRepository.save(sender);
+    const savedItems = await this.itemsRepository.save(items);
     return await this.invoicesRepository.save({
       ...invoice,
-      recipient: recipientToSave,
-      sender: senderToSave,
-      items: itemsToSave,
+      recipient: savedRecipient,
+      sender: savedSender,
+      items: savedItems,
     });
   }
 
@@ -51,15 +52,12 @@ export class InvoicesService {
     return invoice;
   }
 
-  async delete(id: string): Promise<DeleteResult> {
-    // TODO - still does not work, requires cascade deletion
+  async delete(id: string): Promise<DeleteInvoiceDto> {
     const invoice = await this.findInvoiceById(id);
     const { recipient, sender, items } = invoice;
-    const contactsToDelete = [recipient.id, sender.id];
-    await this.contactsRepository.delete({ id: In(contactsToDelete) });
-    const itemsToDelete = items.map((item) => item.id);
-    await this.itemsRepository.delete({ id: In(itemsToDelete) });
-    return await this.invoicesRepository.delete({ id: invoice.id });
+    await this.contactsRepository.remove([recipient, sender]);
+    await this.itemsRepository.remove(items);
+    return await this.invoicesRepository.remove(invoice);
   }
 
   private async findInvoiceById(id: string) {

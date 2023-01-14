@@ -15,6 +15,7 @@ import {
   GetAllInvoicesDto,
   GetInvoiceDto,
   UpdateInvoiceDto,
+  DeleteInvoiceDto,
 } from './dtos';
 
 @ApiTags('Invoices')
@@ -48,7 +49,7 @@ export class InvoicesController {
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string) {
+  async delete(@Param('id') id: string): Promise<DeleteInvoiceDto> {
     return await this.invoicesService.delete(id);
   }
 }
