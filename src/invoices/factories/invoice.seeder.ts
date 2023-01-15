@@ -1,8 +1,8 @@
 import { DataSource } from 'typeorm';
 import { Seeder, SeederFactoryManager } from 'typeorm-extension';
+import { faker } from '@faker-js/faker';
 import { Invoice, Contact, Item } from '../entities';
 import { GetAllInvoicesDto } from '../dtos';
-import { rndIntBetween } from '../../utils';
 
 const SEED_N = Number(process.env.SEED_N) || 0;
 const ITEMS_UPPER_BOUNDARY = 10;
@@ -14,8 +14,6 @@ export class InvoicesSeeder implements Seeder {
     factoryManager: SeederFactoryManager,
   ): Promise<GetAllInvoicesDto[]> {
     const invoicesRepository = dataSource.getRepository(Invoice);
-    //const contactsRepository = dataSource.getRepository(Contact);
-    //const itemsRepository = dataSource.getRepository(Item);
 
     const invoicesFactory = factoryManager.get(Invoice);
     const contactsFactory = factoryManager.get(Contact);
@@ -28,7 +26,10 @@ export class InvoicesSeeder implements Seeder {
           const savedRecipient = await contactsFactory.save();
           const savedSender = await contactsFactory.save();
           const savedItems = await itemsFactory.saveMany(
-            rndIntBetween(ITEMS_LOWER_BOUNDARY, ITEMS_UPPER_BOUNDARY),
+            faker.datatype.number({
+              min: ITEMS_LOWER_BOUNDARY,
+              max: ITEMS_UPPER_BOUNDARY,
+            }),
           );
           const invoice = await invoicesFactory.make({
             recipient: savedRecipient,

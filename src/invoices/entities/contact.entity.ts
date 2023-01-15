@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne } from 'typeorm';
+import { Invoice } from './invoice.entity';
 
 @Entity()
 export class Contact {
@@ -28,4 +29,7 @@ export class Contact {
 
   @Column()
   bankAccount: string;
+
+  @OneToOne(() => Invoice)
+  invoice: Invoice;
 }

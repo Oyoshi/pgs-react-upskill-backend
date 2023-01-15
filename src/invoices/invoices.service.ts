@@ -52,14 +52,22 @@ export class InvoicesService {
     invoice.name = invoiceUpd.name;
     invoice.createdAt = invoiceUpd.createdAt;
     invoice.validUntil = invoiceUpd.validUntil;
-    invoice.recipient = { ...invoiceUpd.recipient, id: recipient.id };
-    invoice.sender = { ...invoiceUpd.sender, id: sender.id };
 
     await this.itemsRepository.remove(items);
+    const savedRecipient = await this.contactsRepository.save({
+      ...invoiceUpd.recipient,
+      id: recipient.id,
+    });
+    const savedSender = await this.contactsRepository.save({
+      ...invoiceUpd.sender,
+      id: sender.id,
+    });
     const savedItems = await this.itemsRepository.save(invoiceUpd.items);
 
     return await this.invoicesRepository.save({
       ...invoice,
+      recipient: savedRecipient,
+      sender: savedSender,
       items: savedItems,
     });
   }

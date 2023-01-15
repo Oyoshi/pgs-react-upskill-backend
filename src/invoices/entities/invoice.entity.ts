@@ -17,17 +17,21 @@ export class Invoice {
   @Column()
   name: string;
 
-  @Column('timestamptz')
+  @Column('date')
   createdAt: Date;
 
-  @Column('timestamptz')
+  @Column('date')
   validUntil: Date;
 
-  @OneToOne(() => Contact)
+  @OneToOne(() => Contact, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn()
   recipient: Contact;
 
-  @OneToOne(() => Contact)
+  @OneToOne(() => Contact, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn()
   sender: Contact;
 

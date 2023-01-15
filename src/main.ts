@@ -29,7 +29,7 @@ postgresDataSource
   .initialize()
   .then(async () => {
     console.log('Postgres Data Source has been initialized');
-    await runSeeders(postgresDataSource);
-    bootstrap();
+    runSeeders(postgresDataSource);
   })
+  .then(() => bootstrap())
   .catch((error) => console.error(error));

@@ -21,6 +21,8 @@ export class Item {
   @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
   price: number;
 
-  @ManyToOne(() => Invoice, (invoice) => invoice.items)
+  @ManyToOne(() => Invoice, (invoice) => invoice.items, {
+    onDelete: 'CASCADE',
+  })
   invoice: Invoice;
 }
