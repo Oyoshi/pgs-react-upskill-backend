@@ -20,5 +20,6 @@ export class ContactBaseDto {
 }
 
 export class GetContactDto extends ContactBaseDto {
+  @IsNotEmpty()
   id: string;
 }

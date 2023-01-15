@@ -14,5 +14,6 @@ export class ItemBaseDto {
 }
 
 export class GetItemDto extends ItemBaseDto {
+  @IsNotEmpty()
   id: string;
 }

@@ -24,13 +24,18 @@ class InvoiceWithContactBaseDto extends InvoiceBaseDto {
 }
 
 export class GetAllInvoicesDto extends InvoiceBaseDto {
+  @IsNotEmpty()
   id: string;
 }
 
 export class GetInvoiceDto extends InvoiceWithContactBaseDto {
+  @IsNotEmpty()
   id: string;
+  @IsNotEmpty()
   recipient: GetContactDto;
+  @IsNotEmpty()
   sender: GetContactDto;
+  @IsNotEmpty()
   items: GetItemDto[];
 }
 
