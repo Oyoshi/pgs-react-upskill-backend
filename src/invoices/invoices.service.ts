@@ -6,7 +6,6 @@ import {
   GetInvoiceDto,
   CreateInvoiceDto,
   UpdateInvoiceDto,
-  DeleteInvoiceDto,
 } from './dtos';
 import { Invoice, Contact, Item } from './entities';
 import { postgresDataSource } from '../appDataSource';
@@ -45,19 +44,32 @@ export class InvoicesService {
 
   async update(
     id: string,
-    invoiceData: UpdateInvoiceDto,
+    invoiceUpd: UpdateInvoiceDto,
   ): Promise<GetInvoiceDto> {
     const invoice = await this.findInvoiceById(id);
-    // this.invoicesRepository.update(invoice)
-    return invoice;
+    const { recipient, sender, items } = invoice;
+
+    invoice.name = invoiceUpd.name;
+    invoice.createdAt = invoiceUpd.createdAt;
+    invoice.validUntil = invoiceUpd.validUntil;
+    invoice.recipient = { ...invoiceUpd.recipient, id: recipient.id };
+    invoice.sender = { ...invoiceUpd.sender, id: sender.id };
+
+    await this.itemsRepository.remove(items);
+    const savedItems = await this.itemsRepository.save(invoiceUpd.items);
+
+    return await this.invoicesRepository.save({
+      ...invoice,
+      items: savedItems,
+    });
   }
 
-  async delete(id: string): Promise<DeleteInvoiceDto> {
+  async delete(id: string): Promise<void> {
     const invoice = await this.findInvoiceById(id);
     const { recipient, sender, items } = invoice;
     await this.contactsRepository.remove([recipient, sender]);
     await this.itemsRepository.remove(items);
-    return await this.invoicesRepository.remove(invoice);
+    await this.invoicesRepository.remove(invoice);
   }
 
   private async findInvoiceById(id: string) {

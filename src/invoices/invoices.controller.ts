@@ -15,7 +15,6 @@ import {
   GetAllInvoicesDto,
   GetInvoiceDto,
   UpdateInvoiceDto,
-  DeleteInvoiceDto,
 } from './dtos';
 
 @ApiTags('Invoices')
@@ -43,13 +42,13 @@ export class InvoicesController {
   @Put(':id')
   async update(
     @Param('id') id: string,
-    @Body() invoice: UpdateInvoiceDto,
-  ): Promise<UpdateInvoiceDto> {
-    return await this.invoicesService.update(id, invoice);
+    @Body() invoiceUpd: UpdateInvoiceDto,
+  ): Promise<GetInvoiceDto> {
+    return await this.invoicesService.update(id, invoiceUpd);
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string): Promise<DeleteInvoiceDto> {
+  async delete(@Param('id') id: string): Promise<void> {
     return await this.invoicesService.delete(id);
   }
 }

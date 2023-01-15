@@ -31,6 +31,4 @@ postgresDataSource
     console.log('Postgres Data Source has been initialized');
     bootstrap();
   })
-  .catch((error) => console.log(error));
-
-// https://radanfolio.vercel.app/posts/seed-database-with-typeorm-in-2023
+  .catch((error) => console.error(error));

@@ -23,7 +23,9 @@ class InvoiceWithContactBaseDto extends InvoiceBaseDto {
   sender: ContactBaseDto;
 }
 
-export class GetAllInvoicesDto extends InvoiceBaseDto {}
+export class GetAllInvoicesDto extends InvoiceBaseDto {
+  id: string;
+}
 
 export class GetInvoiceDto extends InvoiceWithContactBaseDto {
   id: string;
@@ -35,5 +37,3 @@ export class GetInvoiceDto extends InvoiceWithContactBaseDto {
 export class CreateInvoiceDto extends InvoiceWithContactBaseDto {}
 
 export class UpdateInvoiceDto extends InvoiceWithContactBaseDto {}
-
-export class DeleteInvoiceDto extends InvoiceWithContactBaseDto {}
