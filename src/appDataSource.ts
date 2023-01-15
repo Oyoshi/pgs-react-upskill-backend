@@ -1,8 +1,15 @@
 import 'reflect-metadata';
-import { DataSource } from 'typeorm';
+import { DataSource, DataSourceOptions } from 'typeorm';
+import { SeederOptions } from 'typeorm-extension';
 import { Invoice, Contact, Item } from './invoices/entities';
+import {
+  InvoicesFactory,
+  ContactsFactory,
+  ItemsFactory,
+  InvoicesSeeder,
+} from './invoices/factories';
 
-export const postgresDataSource = new DataSource({
+const options: DataSourceOptions & SeederOptions = {
   type: 'postgres',
   host: 'host.docker.internal',
   port: Number(process.env.TYPEORM_PORT),
@@ -13,4 +20,8 @@ export const postgresDataSource = new DataSource({
   logging: 'all',
   entities: [Invoice, Contact, Item],
   migrations: [],
-});
+  factories: [InvoicesFactory, ContactsFactory, ItemsFactory],
+  seeds: [InvoicesSeeder],
+};
+
+export const postgresDataSource = new DataSource(options);
