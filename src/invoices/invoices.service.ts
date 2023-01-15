@@ -74,9 +74,6 @@ export class InvoicesService {
 
   async delete(id: string): Promise<void> {
     const invoice = await this.findInvoiceById(id);
-    const { recipient, sender, items } = invoice;
-    await this.contactsRepository.remove([recipient, sender]);
-    await this.itemsRepository.remove(items);
     await this.invoicesRepository.remove(invoice);
   }
 
