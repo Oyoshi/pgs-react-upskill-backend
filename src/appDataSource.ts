@@ -8,6 +8,7 @@ import {
   ItemsFactory,
   InvoicesSeeder,
 } from './invoices/factories';
+import { EmployeesFactory, EmployeesSeeder } from './employees/factories';
 
 const options: DataSourceOptions & SeederOptions = {
   type: 'postgres',
@@ -20,8 +21,8 @@ const options: DataSourceOptions & SeederOptions = {
   logging: 'all',
   entities: [Invoice, Contact, Item],
   migrations: [],
-  factories: [InvoicesFactory, ContactsFactory, ItemsFactory],
-  seeds: [InvoicesSeeder],
+  factories: [InvoicesFactory, ContactsFactory, ItemsFactory, EmployeesFactory],
+  seeds: [InvoicesSeeder, EmployeesSeeder],
 };
 
 export const postgresDataSource = new DataSource(options);
