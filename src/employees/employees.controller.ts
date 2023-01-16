@@ -8,7 +8,7 @@ import { GetEmployeeDto } from './dtos';
 export class EmployeesController {
   constructor(private employeesService: EmployeesService) {}
 
-  // TODO - use JWT Auth Gaurd
+  // @UseGuards(AuthGuard('jwt'))
   @Get()
   async find(): Promise<GetEmployeeDto[]> {
     return await this.employeesService.find();
