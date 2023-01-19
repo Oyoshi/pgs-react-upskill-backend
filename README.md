@@ -23,6 +23,4 @@ By default database is prepopulated only with `Employee` records. There are no `
 
 ## Authentication
 
-For demo purpose database has been populated with default user. Its credentials are
-    `username: upskill`
-    `password: upskill`
+For demo purpose database has been populated with default user. Its credentials are `username: upskill`, `password: upskill`.
