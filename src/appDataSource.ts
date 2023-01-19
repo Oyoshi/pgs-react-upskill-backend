@@ -2,13 +2,15 @@ import 'reflect-metadata';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { SeederOptions } from 'typeorm-extension';
 import { Invoice, Contact, Item } from './invoices/entities';
+import { User } from './users/entities';
+import { Employee } from './employees/entities';
 import {
   InvoicesFactory,
   ContactsFactory,
   ItemsFactory,
   InvoicesSeeder,
 } from './invoices/factories';
-import { Employee } from './employees/entities';
+import { UsersSeeder } from './users/factories';
 import { EmployeesFactory, EmployeesSeeder } from './employees/factories';
 
 const options: DataSourceOptions & SeederOptions = {
@@ -20,10 +22,10 @@ const options: DataSourceOptions & SeederOptions = {
   database: process.env.TYPEORM_DATABASE,
   synchronize: true,
   logging: 'all',
-  entities: [Invoice, Contact, Item, Employee],
+  entities: [Invoice, Contact, Item, User, Employee],
   migrations: [],
   factories: [InvoicesFactory, ContactsFactory, ItemsFactory, EmployeesFactory],
-  seeds: [InvoicesSeeder, EmployeesSeeder],
+  seeds: [InvoicesSeeder, EmployeesSeeder, UsersSeeder],
 };
 
 export const postgresDataSource = new DataSource(options);

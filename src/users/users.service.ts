@@ -1,24 +1,13 @@
 import { Injectable } from '@nestjs/common';
-
-// This should be a real class/interface representing a user entity
-export type User = any;
+import { postgresDataSource } from '../appDataSource';
+import { User } from './entities';
+import { GetUserWithPasswordDto } from './dtos';
 
 @Injectable()
 export class UsersService {
-  private readonly users = [
-    {
-      userId: 1,
-      username: 'john',
-      password: 'changeme',
-    },
-    {
-      userId: 2,
-      username: 'maria',
-      password: 'guess',
-    },
-  ];
+  private usersRepository = postgresDataSource.getRepository(User);
 
-  async findOne(username: string): Promise<User | undefined> {
-    return this.users.find((user) => user.username === username);
+  async findOneByUserName(username: string): Promise<GetUserWithPasswordDto> {
+    return await this.usersRepository.findOne({ where: { username } });
   }
 }
