@@ -16,7 +16,7 @@ async function bootstrap(): Promise<void> {
 
   const config = new DocumentBuilder()
     .setTitle('React Upskill API')
-    .setDescription('The invoices API description')
+    .setDescription('The React Upskill API description')
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);
