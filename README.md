@@ -10,7 +10,7 @@ All you have to do is just to install [docker](https://docs.docker.com/get-docke
 
 ## Build & Run  :construction_worker:
 
-  1. create `.env` file with with three required values: `DB_USER`, `DB_PASSWORD` and `DB_NAME` (this [example](./.env.example) might be helpful)
+  1. create `.env` file with with four required values: `DB_USER`, `DB_PASSWORD`, `DB_NAME` and `JWT_SECRET` (this [example](./.env.example) might be helpful)
   2. run `docker-compose up -d`
 
 ## Swagger
