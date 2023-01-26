@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsDate } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ContactBaseDto, GetContactDto } from './contact.dto';
-import { ItemBaseDto, GetItemDto } from './item.dto';
+import { GetItemDto } from './item.dto';
 
 class InvoiceBaseDto {
   @IsNotEmpty()
@@ -13,7 +13,7 @@ class InvoiceBaseDto {
   @IsDate()
   validUntil: Date;
   @IsNotEmpty()
-  items: ItemBaseDto[];
+  items: GetItemDto[];
 }
 
 class InvoiceWithContactBaseDto extends InvoiceBaseDto {
