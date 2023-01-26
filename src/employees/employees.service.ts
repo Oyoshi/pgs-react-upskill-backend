@@ -1,11 +1,15 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { GetEmployeeDto } from './dtos';
 import { Employee } from './entities';
-import { postgresDataSource } from '../appDataSource';
 
 @Injectable()
 export class EmployeesService {
-  private employeesRepository = postgresDataSource.getRepository(Employee);
+  constructor(
+    @InjectRepository(Employee)
+    private employeesRepository: Repository<Employee>,
+  ) {}
 
   async find(): Promise<GetEmployeeDto[]> {
     return await this.employeesRepository.find();

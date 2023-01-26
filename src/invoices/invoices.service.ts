@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Raw } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Raw, Repository } from 'typeorm';
 import { isNil } from 'lodash';
 import {
   GetAllInvoicesDto,
@@ -8,13 +9,17 @@ import {
   UpdateInvoiceDto,
 } from './dtos';
 import { Invoice, Contact, Item } from './entities';
-import { postgresDataSource } from '../appDataSource';
 
 @Injectable()
 export class InvoicesService {
-  private invoicesRepository = postgresDataSource.getRepository(Invoice);
-  private contactsRepository = postgresDataSource.getRepository(Contact);
-  private itemsRepository = postgresDataSource.getRepository(Item);
+  constructor(
+    @InjectRepository(Invoice)
+    private invoicesRepository: Repository<Invoice>,
+    @InjectRepository(Contact)
+    private contactsRepository: Repository<Contact>,
+    @InjectRepository(Item)
+    private itemsRepository: Repository<Item>,
+  ) {}
 
   async find(invoiceName?: string): Promise<GetAllInvoicesDto[]> {
     return await this.invoicesRepository.find({

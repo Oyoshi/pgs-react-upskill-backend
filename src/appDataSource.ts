@@ -13,7 +13,7 @@ import {
 import { UsersSeeder } from './users/factories';
 import { EmployeesFactory, EmployeesSeeder } from './employees/factories';
 
-const options: DataSourceOptions & SeederOptions = {
+export const postgresDataSourceOptions: DataSourceOptions & SeederOptions = {
   type: 'postgres',
   host: 'host.docker.internal',
   port: Number(process.env.TYPEORM_PORT),
@@ -28,4 +28,4 @@ const options: DataSourceOptions & SeederOptions = {
   seeds: [InvoicesSeeder, EmployeesSeeder, UsersSeeder],
 };
 
-export const postgresDataSource = new DataSource(options);
+export const postgresDataSource = new DataSource(postgresDataSourceOptions);
