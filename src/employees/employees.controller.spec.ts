@@ -4,9 +4,11 @@ import { Repository } from 'typeorm';
 import { EmployeesController } from './employees.controller';
 import { EmployeesService } from './employees.service';
 import { Employee } from './entities';
+import { EMPLOYEES_MOCK } from './employees.mock';
 
 describe('EmployeesController', () => {
-  let controller: EmployeesController;
+  let employeesController: EmployeesController;
+  let employeesService: EmployeesService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -20,10 +22,20 @@ describe('EmployeesController', () => {
       ],
     }).compile();
 
-    controller = module.get<EmployeesController>(EmployeesController);
+    employeesController = module.get<EmployeesController>(EmployeesController);
+    employeesService = module.get<EmployeesService>(EmployeesService);
   });
 
   it('should be defined', () => {
-    expect(controller).toBeDefined();
+    expect(employeesController).toBeDefined();
+  });
+
+  describe('find', () => {
+    it('should return all employees', async () => {
+      jest
+        .spyOn(employeesService, 'find')
+        .mockResolvedValueOnce(EMPLOYEES_MOCK);
+      expect(await employeesController.find()).toBe(EMPLOYEES_MOCK);
+    });
   });
 });
