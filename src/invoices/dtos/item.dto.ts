@@ -1,6 +1,6 @@
 import { IsNotEmpty } from 'class-validator';
 
-class ItemBaseDto {
+export class ItemBaseDto {
   @IsNotEmpty()
   name: string;
   @IsNotEmpty()

@@ -1,4 +1,9 @@
-import { GetInvoiceDto, GetAllInvoicesDto, GetContactDto } from './dtos';
+import {
+  GetInvoiceDto,
+  GetAllInvoicesDto,
+  CreateInvoiceDto,
+  GetContactDto,
+} from './dtos';
 
 export const INVOICE_ID_MOCK = '4011ef9e-3fad-458b-8491-fb5d422cd296';
 
@@ -44,6 +49,30 @@ export const INVOICE_MOCK: GetInvoiceDto = {
     },
     {
       id: 'fe30a23b-d8e0-4cf5-82ec-a5eab592cb00',
+      name: 'Customer',
+      amount: 53,
+      unit: 'items',
+      tax: 8,
+      price: 423.91,
+    },
+  ],
+};
+
+export const INVOICE_PAYLOAD_MOCK: CreateInvoiceDto = {
+  name: 'Stoltenberg, Heathcote and Halvorson',
+  recipient: RECIPIENT_MOCK,
+  sender: SENDER_MOCK,
+  createdAt: new Date('2022-04-16'),
+  validUntil: new Date('2024-07-13'),
+  items: [
+    {
+      name: 'Regional',
+      amount: 59,
+      unit: 'palettes',
+      tax: 23,
+      price: 600.54,
+    },
+    {
       name: 'Customer',
       amount: 53,
       unit: 'items',
