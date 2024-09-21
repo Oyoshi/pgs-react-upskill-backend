@@ -2,8 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { runSeeders } from 'typeorm-extension';
-import { postgresDataSource } from './appDataSource';
 import { AppModule } from './app.module';
 
 const PORT = Number(process.env.API_PORT) || 4000;
@@ -25,11 +23,4 @@ async function bootstrap(): Promise<void> {
   await app.listen(PORT);
 }
 
-postgresDataSource
-  .initialize()
-  .then(async () => {
-    console.log('Postgres Data Source has been initialized');
-    runSeeders(postgresDataSource);
-  })
-  .then(() => bootstrap())
-  .catch((error) => console.error(error));
+bootstrap();

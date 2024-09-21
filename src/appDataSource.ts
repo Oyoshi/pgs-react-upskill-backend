@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { DataSource, DataSourceOptions } from 'typeorm';
+import { DataSourceOptions } from 'typeorm';
 import { SeederOptions } from 'typeorm-extension';
 import { Invoice, Contact, Item } from './invoices/entities';
 import { User } from './users/entities';
@@ -27,5 +27,3 @@ export const postgresDataSourceOptions: DataSourceOptions & SeederOptions = {
   factories: [InvoicesFactory, ContactsFactory, ItemsFactory, EmployeesFactory],
   seeds: [InvoicesSeeder, EmployeesSeeder, UsersSeeder],
 };
-
-export const postgresDataSource = new DataSource(postgresDataSourceOptions);
