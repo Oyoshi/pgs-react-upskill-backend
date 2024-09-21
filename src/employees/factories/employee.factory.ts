@@ -1,11 +1,10 @@
-import { Faker } from '@faker-js/faker';
 import { setSeederFactory } from 'typeorm-extension';
 import { Employee } from '../entities/employee.entity';
 
-export const EmployeesFactory = setSeederFactory(Employee, (faker: Faker) => {
+export const EmployeesFactory = setSeederFactory(Employee, (faker) => {
   const employee = new Employee();
-  employee.firstName = faker.name.firstName();
-  employee.lastName = faker.name.lastName();
-  employee.title = faker.name.jobTitle();
+  employee.firstName = faker.person.firstName();
+  employee.lastName = faker.person.lastName();
+  employee.title = faker.person.jobTitle();
   return employee;
 });
